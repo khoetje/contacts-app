@@ -3,10 +3,10 @@ import { defineStore } from 'pinia';
 export const useFormStore = defineStore('form', {
   state: () => ({
     formData: {
-      // Define your form fields here
-      firstName: '',
-      lastName: '',
+      workPrivate: '',
+      fullName: '',
       email: '',
+      phone: '',
     },
   }),
 
