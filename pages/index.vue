@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <div class="text-center">
-      <h1 class="text-2xl">Home</h1>
-      <p>
-        Je kunt hier eenvoudig personen beheren en inzien in deze
-        contactenlijst.
-      </p>
-    </div>
+  <div class="text-center">
+    <PageHeader
+      title="Nieuw contact"
+      text="Voeg hier eenvoudig een nieuw contact toe."
+    />
+    <FormAddContact />
   </div>
 </template>
 
-<script setup></script>
+<script>
+import PageHeader from '~/components/PageHeader.vue';
+import FormAddContact from '~/components/FormAddContact.vue';
 
-<style scoped></style>
+export default {
+  components: {
+    PageHeader,
+    FormAddContact,
+  },
+};
