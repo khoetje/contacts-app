@@ -5,16 +5,15 @@
         <nav>
           <ul>
             <li class="p-0 flex justify-between items-center">
-              <NuxtLink to="/">Home</NuxtLink>
+              <NuxtLink to="/">Voeg nieuw contact toe</NuxtLink>
             </li>
             <li class="p-0 flex justify-between items-center">
-              <NuxtLink to="/contacts">Contacts</NuxtLink>
+              <NuxtLink to="/contacten">Contacten</NuxtLink>
             </li>
           </ul>
         </nav>
 
-        <a href="/" class="mx-auto"
-          ><span class="sr-only">Homepage</span>
+        <a href="/" class="mx-auto">
           <img
             alt="logo consumentenbond"
             width="194"
