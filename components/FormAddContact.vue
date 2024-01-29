@@ -1,9 +1,7 @@
 <template>
   <Form @submit="submitForm" :validation-schema="schema">
-    <div class="flex flex-col w-full max-w-80 pb-4 m-auto">
-      <label class="font-bold text-left py-1" for="workPrivate"
-        >Werk/Privé</label
-      >
+    <FieldWrapper>
+      <Label labelText="Werk/Privé" :forAttr="workPrivate" />
       <Field
         class="border p-2 rounded-md m-0"
         as="select"
@@ -15,10 +13,10 @@
         <option value="private">Privé</option>
       </Field>
       <ErrorMessage class="text-sm text-red-500" name="workPrivate" />
-    </div>
+    </FieldWrapper>
 
-    <div class="flex flex-col w-full max-w-80 pb-4 m-auto">
-      <label class="font-bold text-left py-1" for="fullName">Naam</label>
+    <FieldWrapper>
+      <Label labelText="Naam" :forAttr="fullName" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formData.fullName"
@@ -26,10 +24,10 @@
         name="fullName"
       />
       <ErrorMessage class="text-sm text-red-500" name="fullName" />
-    </div>
+    </FieldWrapper>
 
-    <div class="flex flex-col w-full max-w-80 pb-4 m-auto">
-      <label class="font-bold text-left py-1" for="email">Email:</label>
+    <FieldWrapper>
+      <Label labelText="Email" :forAttr="email" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formData.email"
@@ -37,12 +35,10 @@
         name="email"
       />
       <ErrorMessage class="text-sm text-red-500" name="email" />
-    </div>
+    </FieldWrapper>
 
-    <div class="flex flex-col w-full max-w-80 pb-4 m-auto">
-      <label class="font-bold text-left py-1" for="phone"
-        >Telefoonnummer:</label
-      >
+    <FieldWrapper>
+      <Label labelText="Telefoonnummer" :forAttr="phone" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formData.phone"
@@ -50,14 +46,9 @@
         name="phone"
       />
       <ErrorMessage class="text-sm text-red-500" name="phone" />
-    </div>
+    </FieldWrapper>
 
-    <button
-      class="my-8 px-5 py-2 bg-[#004df5] text-white rounded-[100px]"
-      type="submit"
-    >
-      Contact toevoegen
-    </button>
+    <Button type="submit" label="Contact toevoegen" />
   </Form>
 </template>
 
@@ -66,11 +57,25 @@ import { ref } from 'vue';
 import { useFormStore } from '~/store/form';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
+import Button from '~/components/Button.vue';
+import Label from '~/components/Label.vue';
+import FieldWrapper from '~/components/FieldWrapper.vue';
 
 export default {
+  components: {
+    Button,
+    Label,
+    FieldWrapper,
+  },
   setup() {
+    const workPrivate = ref('');
+    const fullName = ref('');
+    const phone = ref('');
+    const email = ref('');
+
     const phoneRegex =
       /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/;
+
     const schema = yup.object({
       workPrivate: yup.string().required('Dit veld is verplicht'),
       fullName: yup.string().required('Naam is verplicht'),
@@ -96,6 +101,10 @@ export default {
     };
 
     return {
+      workPrivate,
+      fullName,
+      phone,
+      email,
       schema,
       formData,
       submitForm,

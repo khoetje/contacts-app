@@ -2,16 +2,14 @@
   <div class="relative lg:max-w-6xl mx-4 md:mx-8 xl:mx-auto">
     <div class="z-40">
       <div class="grid grid-cols-3 items-center pt-2 gap-x-4 md:gap-x-6 mb-4">
-        <nav>
-          <ul>
-            <li class="p-0 flex justify-between items-center">
-              <NuxtLink to="/">Voeg nieuw contact toe</NuxtLink>
-            </li>
-            <li class="p-0 flex justify-between items-center">
-              <NuxtLink to="/contacten">Contacten</NuxtLink>
-            </li>
-          </ul>
-        </nav>
+        <Nav>
+          <NavItemWrapper>
+            <NuxtLink to="/">Voeg nieuw contact toe</NuxtLink>
+          </NavItemWrapper>
+          <NavItemWrapper>
+            <NuxtLink to="/contacten">Contacten</NuxtLink>
+          </NavItemWrapper>
+        </Nav>
 
         <a href="/" class="mx-auto">
           <img
@@ -30,6 +28,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Nav from '@/components/Nav.vue';
+import NavItemWrapper from '@/components/NavItemWrapper.vue';
+</script>
 
 <style scoped></style>
