@@ -5,7 +5,7 @@
       <Field
         class="border p-2 rounded-md m-0"
         as="select"
-        v-model="formData.workPrivate"
+        v-model="formValues.workPrivate"
         name="workPrivate"
       >
         <option value="" disabled>Selecteer</option>
@@ -19,7 +19,7 @@
       <Label labelText="Naam" :forAttr="fullName" />
       <Field
         class="border p-2 rounded-md m-0"
-        v-model="formData.fullName"
+        v-model="formValues.fullName"
         type="text"
         name="fullName"
       />
@@ -30,7 +30,7 @@
       <Label labelText="Email" :forAttr="email" />
       <Field
         class="border p-2 rounded-md m-0"
-        v-model="formData.email"
+        v-model="formValues.email"
         type="email"
         name="email"
       />
@@ -41,8 +41,8 @@
       <Label labelText="Telefoonnummer" :forAttr="phone" />
       <Field
         class="border p-2 rounded-md m-0"
-        v-model="formData.phone"
-        type="phone"
+        v-model="formValues.phone"
+        type="text"
         name="phone"
       />
       <ErrorMessage class="text-sm text-red-500" name="phone" />
@@ -54,9 +54,11 @@
 
 <script>
 import { ref } from 'vue';
-import { useFormStore } from '~/store/form';
+import { useRouter } from 'vue-router';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
+
+import { useFormStore } from '~/store/form';
 import Button from '~/components/Button.vue';
 import Label from '~/components/Label.vue';
 import FieldWrapper from '~/components/FieldWrapper.vue';
@@ -68,10 +70,7 @@ export default {
     FieldWrapper,
   },
   setup() {
-    const workPrivate = ref('');
-    const fullName = ref('');
-    const phone = ref('');
-    const email = ref('');
+    const router = useRouter();
 
     const phoneRegex =
       /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/;
@@ -89,24 +88,36 @@ export default {
         .required('Telefoonnummer is verplicht. '),
     });
 
-    const formData = ref(useFormStore().formData);
+    const workPrivate = ref('');
+    const fullName = ref('');
+    const email = ref('');
+    const phone = ref('');
 
-    console.log('formData', formData);
+    const formValues = ref({
+      workPrivate: '',
+      fullName: '',
+      email: '',
+      phone: '',
+    });
 
     const submitForm = () => {
-      console.log('formData', formData.value);
-
       // Store form data in Pinia store
-      useFormStore().setFormData(formData.value);
+      const formStore = useFormStore();
+      formStore.setFormData({ ...formValues.value });
+
+      // Redirect to contacten page
+      router.push({ path: '/contacten' });
+
+      // reset form
     };
 
     return {
+      schema,
+      formValues,
       workPrivate,
       fullName,
-      phone,
       email,
-      schema,
-      formData,
+      phone,
       submitForm,
     };
   },
