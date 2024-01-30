@@ -4,7 +4,7 @@
     v-if="contacts.length > 0"
   >
     <li
-      class="contact-list__item p-4 rounded-3xl border"
+      class="contact-list__item p-4 rounded-3xl border flex flex-col"
       v-for="contact in contacts"
     >
       <div class="flex justify-end">
@@ -19,13 +19,13 @@
         {{ contact.workPrivate === 'work' ? 'werk' : 'privé' }}
       </p>
       <p class="text-xl py-1 pt-0">{{ contact.fullName }}</p>
-      <p class="p-1 pb-0 text-sm">{{ contact.phone }}</p>
       <p class="p-1 pt-0 text-sm">{{ contact.email }}</p>
+      <p class="p-1 pb-0 text-sm">{{ contact.phone }}</p>
 
-      <div class="pt-6">
+      <div class="pt-6 mt-auto">
         <button
           class="px-2 py-1 text-xs bg-[#004df5] text-white rounded-[100px]"
-          @click="removeItem(contact.id)"
+          @click="removeContact(contact.id)"
         >
           remove
         </button>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { useFormStore } from '~/store/form';
+import { useContactsStore } from '~/store/contacts';
 import NoResults from '~/components/NoResults.vue';
 
 export default {
@@ -50,16 +50,16 @@ export default {
     },
   },
   setup() {
-    const formStore = useFormStore();
-    const contacts = computed(() => formStore.formDataArray);
+    const store = useContactsStore();
+    const contacts = computed(() => store.contacts);
 
-    const removeItem = (id) => {
-      formStore.removeItem(id);
+    const removeContact = (id) => {
+      store.removeContact(id);
     };
 
     return {
       contacts,
-      removeItem,
+      removeContact,
     };
   },
 };

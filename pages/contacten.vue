@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { useFormStore } from '~/store/form';
+import { useContactsStore } from '~/store/contacts';
 import PageHeader from '~/components/PageHeader.vue';
 import ContactList from '~/components/ContactList.vue';
 import NoResults from '~/components/NoResults.vue';
@@ -20,11 +20,10 @@ import NoResults from '~/components/NoResults.vue';
 export default {
   components: { PageHeader, ContactList, NoResults },
   setup() {
-    const formStore = useFormStore();
-    const contacts = formStore.formDataArray;
+    const store = useContactsStore();
+    const contacts = store.contacts;
 
     return {
-      formStore,
       contacts,
     };
   },

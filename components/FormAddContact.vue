@@ -98,7 +98,7 @@ import { useRouter } from 'vue-router';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 
-import { useFormStore } from '~/store/form';
+import { useContactsStore } from '~/store/contacts';
 import Button from '~/components/Button.vue';
 import Label from '~/components/Label.vue';
 import FieldWrapper from '~/components/FieldWrapper.vue';
@@ -158,8 +158,8 @@ export default {
       formValues.value.id = uniqueId;
 
       // Store form data in Pinia store
-      const formStore = useFormStore();
-      formStore.setFormData({ ...formValues.value });
+      const store = useContactsStore();
+      store.setFormData({ ...formValues.value });
 
       // Redirect to contacten page
       router.push({ path: '/contacten' });
