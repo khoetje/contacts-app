@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 export const useContactsStore = defineStore('contacts', {
   state: () => ({
     contacts: [],
+    searchQuery: '',
   }),
   persist: {
     storage: persistedState.cookiesWithOptions({
@@ -16,7 +17,18 @@ export const useContactsStore = defineStore('contacts', {
       this.contacts = [...this.contacts, data];
     },
     removeContact(id) {
-      this.contacts = this.contacts.filter((item) => item.id !== id);
+      this.contacts = this.contacts.filter((contact) => contact.id !== id);
+    },
+    updateSearchQuery(query) {
+      this.searchQuery = query;
+    },
+    getSearchResults() {
+      const searchTerm = this.searchQuery.toLowerCase();
+      return this.contacts.filter(
+        (contact) =>
+          contact.fullName.toLowerCase().includes(searchTerm) ||
+          contact.email.toLowerCase().includes(searchTerm)
+      );
     },
   },
 });

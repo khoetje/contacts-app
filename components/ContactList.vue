@@ -1,4 +1,17 @@
 <template>
+  <div class="grid grid-cols-2">
+    <div></div>
+    <div class="flex justify-end">
+      <input
+        class="bg-[#f2f2f0] rounded-3xl py-2 px-6 text-[#05164c] text-sm"
+        type="text"
+        v-model="searchQuery"
+        @input="updateSearch"
+        placeholder="Zoek contact"
+      />
+    </div>
+  </div>
+
   <ul
     class="contact-list grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
     v-if="contacts.length > 0"
@@ -27,12 +40,12 @@
           class="px-2 py-1 text-xs bg-[#004df5] text-white rounded-[100px]"
           @click="removeContact(contact.id)"
         >
-          remove
+          verwijder
         </button>
       </div>
     </li>
   </ul>
-  <NoResults v-else />
+  <NoResults v-else :searchIsActive="searchQuery !== ''" />
 </template>
 
 <script>
@@ -51,15 +64,28 @@ export default {
   },
   setup() {
     const store = useContactsStore();
-    const contacts = computed(() => store.contacts);
+    const searchQuery = ref(store.searchQuery);
+
+    let contacts = computed(() => store.contacts);
 
     const removeContact = (id) => {
       store.removeContact(id);
     };
 
+    const updateSearch = () => {
+      store.updateSearchQuery(searchQuery.value);
+    };
+
+    const filteredContacts = computed(() => store.getSearchResults());
+    if (filteredContacts) {
+      contacts = filteredContacts;
+    }
+
     return {
       contacts,
+      searchQuery,
       removeContact,
+      updateSearch,
     };
   },
 };
