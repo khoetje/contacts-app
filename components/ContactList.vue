@@ -1,18 +1,28 @@
 <template>
-  <div class="contact-list">
-    <div v-for="contact in contacts" :key="contact">
-      <ContactCard :contact="contact" />
-    </div>
+  <div class="md:grid md:grid-cols-3 md:gap-4" v-if="contacts">
+    <ContactCard
+      class="text-xs my-4 md:my-0"
+      v-for="(contact, index) in contacts"
+      :key="index"
+      :contact="contact"
+    />
   </div>
 </template>
 
 <script>
-import ContactCard from './ContactCard.vue';
+import ContactCard from '~/components/ContactCard.vue';
+import Button from '~/components/Button.vue';
+
 export default {
-  props: ['contacts'],
-  components: { ContactCard },
-  setup(props) {
-    console.log('props', props.contacts);
+  components: {
+    ContactCard,
+    Button,
+  },
+  props: {
+    contacts: {
+      type: Array,
+      required: true,
+    },
   },
 };
 </script>
