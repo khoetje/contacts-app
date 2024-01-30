@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vee-validate/nuxt',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   plugins: ['~/plugins/vee-validate.js'],
   build: {
