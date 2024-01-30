@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-2">
     <div></div>
-    <div class="flex justify-end">
+    <div class="flex justify-end pb-8">
       <input
-        class="bg-[#f2f2f0] rounded-3xl py-2 px-6 text-[#05164c] text-sm"
+        class="bg-[#f2f2f0] rounded-3xl py-3 px-6 text-[#05164c] text-sm"
         type="text"
         v-model="searchQuery"
         @input="updateSearch"
