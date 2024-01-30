@@ -1,40 +1,21 @@
 import { defineStore } from 'pinia';
-import CryptoJS from 'crypto-js';
 
-export const STORAGE_KEY = 'sensitiveFormData';
+// todo: formData contains sensitive information. It would be better to save this in an external database in stead of cookies.
 
 export const useFormStore = defineStore('form', {
   state: () => ({
     formDataArray: [],
   }),
+  persist: {
+    storage: persistedState.cookiesWithOptions({
+      sameSite: 'strict',
+    }),
+  },
   actions: {
     setFormData(formData) {
       console.log('setFormData');
-      this.formDataArray.push(formData);
+      this.formDataArray = [...this.formDataArray, formData];
       console.log('this.formDataArray', this.formDataArray);
-      this.setStorage(STORAGE_KEY, this.formDataArray);
-    },
-
-    getStorage: (key) => {
-      const encryptedData = localStorage.getItem(key);
-      if (encryptedData) {
-        const decryptedData = CryptoJS.AES.decrypt(
-          encryptedData,
-          'secret-123'
-        ).toString(CryptoJS.enc.Utf8);
-        return JSON.parse(decryptedData);
-      }
-      return {};
-    },
-
-    setStorage: (key, state) => {
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify(state),
-        'secret-123'
-      ).toString();
-
-      console.log('encryptedData', encryptedData);
-      localStorage.setItem(key, encryptedData);
     },
   },
 });
