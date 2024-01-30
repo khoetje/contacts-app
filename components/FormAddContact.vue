@@ -148,15 +148,21 @@ export default {
       phone: '',
     });
 
+    const generateUniqueId = () => {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    };
+
     const submitForm = () => {
+      // Add unique id
+      const uniqueId = generateUniqueId();
+      formValues.value.id = uniqueId;
+
       // Store form data in Pinia store
       const formStore = useFormStore();
       formStore.setFormData({ ...formValues.value });
 
       // Redirect to contacten page
       router.push({ path: '/contacten' });
-
-      // reset form
     };
 
     return {
