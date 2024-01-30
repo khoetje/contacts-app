@@ -1,7 +1,47 @@
 <template>
-  <Form @submit="submitForm" :validation-schema="schema">
+  <Form
+    @submit="submitForm"
+    :validation-schema="
+      formValues.type === 'advanced' ? schemaAdvanced : schemaSimple
+    "
+  >
     <FieldWrapper>
-      <Label labelText="Werk/Privé" :forAttr="workPrivate" />
+      <p class="font-bold mb-2">Soort</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex py-1 px-5 border rounded-[100px] cursor-pointer">
+          <Field
+            name="type"
+            type="radio"
+            value="simple"
+            v-model="formValues.type"
+            id="simple"
+          />
+          <Label
+            class="ml-2 cursor-pointer font-normal"
+            labelText="Simpel"
+            for="simple"
+          />
+        </div>
+        <div class="flex py-1 px-5 border rounded-[100px]">
+          <Field
+            name="type"
+            type="radio"
+            value="advanced"
+            v-model="formValues.type"
+            id="advanced"
+          />
+          <Label
+            class="ml-2 cursor-pointer font-normal"
+            labelText="Uitgebreid"
+            for="advanced"
+          />
+        </div>
+      </div>
+      <ErrorMessage name="type" />
+    </FieldWrapper>
+
+    <FieldWrapper>
+      <Label labelText="Werk/Privé" for="workPrivate" />
       <Field
         class="border p-2 rounded-md m-0"
         as="select"
@@ -16,7 +56,7 @@
     </FieldWrapper>
 
     <FieldWrapper>
-      <Label labelText="Naam" :forAttr="fullName" />
+      <Label labelText="Naam" for="fullName" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formValues.fullName"
@@ -26,8 +66,8 @@
       <ErrorMessage class="text-sm text-red-500" name="fullName" />
     </FieldWrapper>
 
-    <FieldWrapper>
-      <Label labelText="Email" :forAttr="email" />
+    <FieldWrapper v-if="formValues.type === 'advanced'">
+      <Label labelText="Email" for="email" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formValues.email"
@@ -37,8 +77,8 @@
       <ErrorMessage class="text-sm text-red-500" name="email" />
     </FieldWrapper>
 
-    <FieldWrapper>
-      <Label labelText="Telefoonnummer" :forAttr="phone" />
+    <FieldWrapper v-if="formValues.type === 'advanced'">
+      <Label labelText="Telefoonnummer" for="phone" />
       <Field
         class="border p-2 rounded-md m-0"
         v-model="formValues.phone"
@@ -75,25 +115,33 @@ export default {
     const phoneRegex =
       /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/;
 
-    const schema = yup.object({
-      workPrivate: yup.string().required('Dit veld is verplicht'),
-      fullName: yup.string().required('Naam is verplicht'),
-      email: yup
-        .string()
-        .email('E-mail is onjuist')
-        .required('E-mail is verplicht'),
+    const errorRequired = 'Dit veld is verplicht';
+
+    const schemaSimple = yup.object({
+      type: yup.string(),
+      workPrivate: yup.string().required(errorRequired),
+      fullName: yup.string().required(errorRequired),
+    });
+
+    const schemaAdvanced = yup.object({
+      type: yup.string(),
+      workPrivate: yup.string().required(errorRequired),
+      fullName: yup.string().required(errorRequired),
+      email: yup.string().email('E-mail is onjuist').required(errorRequired),
       phone: yup
         .string()
         .matches(phoneRegex, 'Vul in als: 06-12345678 of 010-1234567')
-        .required('Telefoonnummer is verplicht. '),
+        .required(errorRequired),
     });
 
+    const type = ref('');
     const workPrivate = ref('');
     const fullName = ref('');
     const email = ref('');
     const phone = ref('');
 
     const formValues = ref({
+      type: 'simple',
       workPrivate: '',
       fullName: '',
       email: '',
@@ -112,12 +160,14 @@ export default {
     };
 
     return {
-      schema,
+      schemaSimple,
+      schemaAdvanced,
       formValues,
       workPrivate,
       fullName,
       email,
       phone,
+      type,
       submitForm,
     };
   },
