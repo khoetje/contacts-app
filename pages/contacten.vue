@@ -6,11 +6,8 @@
         contactenlijst."
     />
 
-    <ContactList v-if="contacts" :contacts="contacts" />
-    <p v-else>
-      We hebben geen contacten gevonden. <br />
-      <NuxtLink to="/">Voeg een nieuw contact toe</NuxtLink>
-    </p>
+    <ContactList v-if="contacts.length > 0" :contacts="contacts" />
+    <NoResults v-else />
   </div>
 </template>
 
@@ -18,10 +15,10 @@
 import { useFormStore } from '~/store/form';
 import PageHeader from '~/components/PageHeader.vue';
 import ContactList from '~/components/ContactList.vue';
-import ContactCard from '~/components/ContactCard.vue';
+import NoResults from '~/components/NoResults.vue';
 
 export default {
-  components: { PageHeader, ContactList, ContactCard },
+  components: { PageHeader, ContactList, NoResults },
   setup() {
     const formStore = useFormStore();
     const contacts = formStore.formDataArray;
