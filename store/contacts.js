@@ -22,12 +22,21 @@ export const useContactsStore = defineStore('contacts', {
     updateSearchQuery(query) {
       this.searchQuery = query;
     },
+
     getSearchResults() {
       const searchTerm = this.searchQuery.toLowerCase();
+      const simpleType = 'simpel';
+      const advancedType = 'uitgebreid';
       return this.contacts.filter(
         (contact) =>
           contact.fullName.toLowerCase().includes(searchTerm) ||
-          contact.email.toLowerCase().includes(searchTerm)
+          contact.email.toLowerCase().includes(searchTerm) ||
+          (contact.type === 'simple'
+            ? simpleType.includes(searchTerm)
+            : false) ||
+          (contact.type === 'advanced'
+            ? advancedType.includes(searchTerm)
+            : false)
       );
     },
   },
