@@ -1,6 +1,7 @@
 <template>
-  <div class="text-center">
+  <div>
     <PageHeader
+      class="text-center"
       title="Nieuw contact"
       text="Voeg hier eenvoudig een nieuw contact toe."
     />
