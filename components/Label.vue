@@ -1,5 +1,5 @@
 <template>
-  <label :for="forAttr" class="font-bold text-left py-1">
+  <label :for="for" class="font-bold py-1">
     {{ labelText }}
   </label>
 </template>
@@ -11,7 +11,7 @@ export default {
       type: String,
       required: true,
     },
-    forAttr: {
+    for: {
       type: String,
       default: '',
     },
