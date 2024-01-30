@@ -2,8 +2,7 @@
   <div class="text-center">
     <PageHeader
       title="Contacten"
-      text="Je kunt hier eenvoudig personen beheren en inzien in deze
-        contactenlijst."
+      text="Dit is een overzicht van al je contacten. Je kunt zoeken op naam, e-mail en het soort contact. "
     />
 
     <ContactList v-if="contacts.length > 0" :contacts="contacts" />
