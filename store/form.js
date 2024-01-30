@@ -17,5 +17,8 @@ export const useFormStore = defineStore('form', {
       this.formDataArray = [...this.formDataArray, formData];
       console.log('this.formDataArray', this.formDataArray);
     },
+    removeItem(id) {
+      this.formDataArray = this.formDataArray.filter((item) => item.id !== id);
+    },
   },
 });
